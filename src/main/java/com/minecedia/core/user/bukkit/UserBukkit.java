@@ -52,56 +52,28 @@ public class UserBukkit {
         return this.health;
     }
 
-    public void setHealth(double health) {
-        this.health = health;
-    }
-
     public double getMaxHealth() {
         return this.maxHealth;
-    }
-
-    public void setMaxHealth(double maxHealth) {
-        this.maxHealth = maxHealth;
     }
 
     public int getFood() {
         return this.food;
     }
 
-    public void setFood(int food) {
-        this.food = food;
-    }
-
     public int getExperience() {
         return this.experience;
-    }
-
-    public void setExperience(int experience) {
-        this.experience = experience;
     }
 
     public Location getLocation() {
         return this.location;
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
-    }
-
     public Collection<PotionEffect> getPotion() {
         return this.potion;
     }
 
-    public void setPotion(Collection<PotionEffect> potion) {
-        this.potion = potion;
-    }
-
     public Map<Integer, ItemStack> getInventory() {
         return this.inventory;
-    }
-
-    public void setInventory(Map<Integer, ItemStack> inventory) {
-        this.inventory = inventory;
     }
 
     public void update(Player player) {

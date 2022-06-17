@@ -1,6 +1,7 @@
 package com.minecedia.core.user.events;
 
 import com.minecedia.core.user.User;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
@@ -17,9 +18,11 @@ public class UserLoadEvent extends Event {
 
 
     private final User user;
+    private final Player player;
 
-    public UserLoadEvent(@Nonnull User user) {
+    public UserLoadEvent(User user, Player player) {
         this.user = user;
+        this.player = player;
     }
 
     @Nonnull
@@ -29,5 +32,9 @@ public class UserLoadEvent extends Event {
 
     public User getUser() {
         return this.user;
+    }
+
+    public Player getPlayer() {
+        return this.player;
     }
 }

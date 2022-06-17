@@ -12,24 +12,24 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import java.util.Objects;
-
 public class UserListeners implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         HCore.asyncScheduler().run((() -> {
-            User user = UserHandler.loadByUID(event.getPlayer().getUniqueId());
+            Player player = event.getPlayer();
+
+            User user = UserHandler.loadByUID(player.getUniqueId());
             if (user == null) {
-                user = new User(event.getPlayer());
+                user = new User(player);
                 user.getDatabase().insert();
             }
 
 
             User loaded = UserHandler.register(user);
             HCore.syncScheduler().run(() -> {
-                loaded.getBukkit().update(Objects.requireNonNull(loaded.asPlayer()));
-                Bukkit.getPluginManager().callEvent(new UserLoadEvent(loaded));
+                loaded.getBukkit().update(player);
+                Bukkit.getPluginManager().callEvent(new UserLoadEvent(loaded, player));
             });
         }));
     }
@@ -38,11 +38,12 @@ public class UserListeners implements Listener {
     public void onQuit(PlayerQuitEvent event) {
         HCore.asyncScheduler().run((() -> {
             Player player = event.getPlayer();
+
             User user = UserHandler.unregister(player);
             user.getBukkit().load(player);
             user.getDatabase().update();
 
-            HCore.syncScheduler().run(() -> Bukkit.getPluginManager().callEvent(new UserUnloadEvent(user)));
+            HCore.syncScheduler().run(() -> Bukkit.getPluginManager().callEvent(new UserUnloadEvent(user, player)));
         }));
     }
 }
