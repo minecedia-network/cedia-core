@@ -2,20 +2,22 @@ package com.minecedia.core.user.utils;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.minecedia.core.user.User;
 
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.Base64;
-import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class UserUtils {
 
+    public static String[] loadTexture(User user) {
+        return UserUtils.loadTexture(user.getName());
+    }
+
     public static String[] loadTexture(String playerName) {
         try {
-            Objects.requireNonNull(playerName, "player name cannot be null!");
-
             URL url1 = new URL("https://api.mojang.com/users/profiles/minecraft/" + playerName);
             InputStreamReader reader_0 = new InputStreamReader(url1.openStream());
             String uuid = new JsonParser().parse(reader_0).getAsJsonObject().get("id").getAsString();

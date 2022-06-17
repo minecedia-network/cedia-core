@@ -27,7 +27,7 @@ public class User {
     private final UserDatabase database;
 
     public User(Player player) {
-        String[] textureAndSignature = UserUtils.loadTexture(player.getName());
+        String[] textureAndSignature = UserUtils.loadTexture(this);
 
         this.uid = player.getUniqueId();
         this.name = player.getName();
