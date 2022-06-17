@@ -5,6 +5,7 @@ import com.minecedia.core.user.database.UserDatabase;
 import com.minecedia.core.user.listeners.UserListeners;
 import org.bson.BsonBinary;
 import org.bson.BsonDocument;
+import org.bson.BsonString;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -25,10 +27,10 @@ public class UserHandler {
     }
 
     public static void uninitialize() {
-        for (User user : users.values()) {
-            user.getBukkit().loadFromPlayer();
+        users.values().forEach(user -> {
+            user.getBukkit().load(Objects.requireNonNull(user.asPlayer()));
             user.getDatabase().update();
-        }
+        });
     }
 
 
@@ -49,7 +51,8 @@ public class UserHandler {
     }
 
     public static User register(User user) {
-        return users.put(user.getUID(), user);
+        users.put(user.getUID(), user);
+        return user;
     }
 
     public static User register(UUID uid) {
@@ -80,8 +83,25 @@ public class UserHandler {
         return UserHandler.findByUID(uid).orElseThrow(() -> new IllegalArgumentException("user couldn't found with this uid: " + uid));
     }
 
-    public static User load(UUID uid) {
+    public static Optional<User> findByName(String name) {
+        for (User user : users.values())
+            if (user.getName().equalsIgnoreCase(name))
+                return Optional.of(user);
+        return Optional.empty();
+    }
+
+    public static User getByName(String name) {
+        return UserHandler.findByName(name).orElseThrow(() -> new IllegalArgumentException("user couldn't found with this name: " + name));
+    }
+
+    public static User loadByUID(UUID uid) {
         BsonDocument query = new BsonDocument("uid", new BsonBinary(uid));
+        BsonDocument document = UserDatabase.COLLECTION.find(query).first();
+        return (document != null) ? new User(document) : null;
+    }
+
+    public static User loadByName(String name) {
+        BsonDocument query = new BsonDocument("name", new BsonString(name));
         BsonDocument document = UserDatabase.COLLECTION.find(query).first();
         return (document != null) ? new User(document) : null;
     }
@@ -91,13 +111,24 @@ public class UserHandler {
     }
 
     public static User getOrLoad(UUID uid) {
-        User user1 = users.get(uid);
+        User user1 = UserHandler.findByUID(uid).orElse(null);
         if (user1 != null) return user1;
 
-        User user2 = UserHandler.load(uid);
+        User user2 = UserHandler.loadByUID(uid);
         if (user2 != null) return user2;
 
         Player player = Bukkit.getPlayer(uid);
+        return (player != null) ? new User(player) : null;
+    }
+
+    public static User getOrLoad(String name) {
+        User user1 = UserHandler.findByName(name).orElse(null);
+        if (user1 != null) return user1;
+
+        User user2 = UserHandler.loadByName(name);
+        if (user2 != null) return user2;
+
+        Player player = Bukkit.getPlayerExact(name);
         return (player != null) ? new User(player) : null;
     }
 }

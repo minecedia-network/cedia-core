@@ -1,3 +1,6 @@
 name: 'CediaCore'
-version: '1.0.0'
+author: 'Cedia'
+version: 1.0.0
+url: 'https://www.minecedia.com'
 description: 'CediaCore is a plugin for Cedia'
+main: com.minecedia.core.CediaCore

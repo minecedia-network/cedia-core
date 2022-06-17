@@ -35,7 +35,7 @@ public class User {
         this.signature = textureAndSignature[1];
         this.shortTexture = textureAndSignature[2];
         this.country = Country.getByCode(CediaUtils.getCountryCodeByPlayer(player));
-        this.bukkit = new UserBukkit(this);
+        this.bukkit = new UserBukkit(this, player);
         this.database = new UserDatabase(this);
     }
 
@@ -46,7 +46,7 @@ public class User {
         this.signature = document.getString("signature").getValue();
         this.shortTexture = document.getString("shortTexture").getValue();
         this.country = Country.getByCode(document.getString("country").getValue());
-        this.bukkit = new UserBukkit(this, document);
+        this.bukkit = new UserBukkit(this, document.getDocument("bukkit"));
         this.database = new UserDatabase(this);
     }
 

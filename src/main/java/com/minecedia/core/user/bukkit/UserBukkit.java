@@ -28,9 +28,9 @@ public class UserBukkit {
     private Collection<PotionEffect> potion;
     private Map<Integer, ItemStack> inventory;
 
-    public UserBukkit(User user) {
+    public UserBukkit(User user, Player player) {
         this.user = user;
-        this.loadFromPlayer();
+        this.load(player);
     }
 
     public UserBukkit(User user, BsonDocument document) {
@@ -52,58 +52,79 @@ public class UserBukkit {
         return this.health;
     }
 
+    public void setHealth(double health) {
+        this.health = health;
+    }
+
     public double getMaxHealth() {
         return this.maxHealth;
+    }
+
+    public void setMaxHealth(double maxHealth) {
+        this.maxHealth = maxHealth;
     }
 
     public int getFood() {
         return this.food;
     }
 
+    public void setFood(int food) {
+        this.food = food;
+    }
+
     public int getExperience() {
         return this.experience;
+    }
+
+    public void setExperience(int experience) {
+        this.experience = experience;
     }
 
     public Location getLocation() {
         return this.location;
     }
 
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
     public Collection<PotionEffect> getPotion() {
         return this.potion;
+    }
+
+    public void setPotion(Collection<PotionEffect> potion) {
+        this.potion = potion;
     }
 
     public Map<Integer, ItemStack> getInventory() {
         return this.inventory;
     }
 
-    public void loadToPlayer() {
-        Player player = this.user.asPlayer();
-        if (player != null) {
-            player.setHealth(this.health);
-            player.setHealthScale(this.maxHealth);
-            player.setFoodLevel(this.food);
-            player.setTotalExperience(this.experience);
-            player.teleport(this.location);
-            player.addPotionEffects(this.potion);
-            this.inventory.forEach((slot, item) -> player.getInventory().setItem(slot, item));
-        }
+    public void setInventory(Map<Integer, ItemStack> inventory) {
+        this.inventory = inventory;
     }
 
-    public void loadFromPlayer() {
-        Player player = this.user.asPlayer();
-        if (player != null) {
-            this.health = player.getHealth();
-            this.maxHealth = player.getHealthScale();
-            this.food = player.getFoodLevel();
-            this.experience = player.getTotalExperience();
-            this.location = player.getLocation();
-            this.potion = player.getActivePotionEffects();
-            this.inventory = new HashMap<>();
+    public void update(Player player) {
+        player.setHealth(this.health);
+        player.setHealthScale(this.maxHealth);
+        player.setFoodLevel(this.food);
+        player.setTotalExperience(this.experience);
+        player.teleport(this.location);
+        player.addPotionEffects(this.potion);
+        this.inventory.forEach((slot, item) -> player.getInventory().setItem(slot, item));
+    }
 
-            for (int i = 0; i < player.getInventory().getSize() + 4; i++) {
-                this.inventory.put(i, player.getInventory().getItem(i));
-            }
-        }
+    public void load(Player player) {
+        this.health = player.getHealth();
+        this.maxHealth = player.getHealthScale();
+        this.food = player.getFoodLevel();
+        this.experience = player.getTotalExperience();
+        this.location = player.getLocation();
+        this.potion = player.getActivePotionEffects();
+        this.inventory = new HashMap<>();
+
+        for (int i = 0; i < player.getInventory().getSize() + 4; i++)
+            this.inventory.put(i, player.getInventory().getItem(i));
     }
 
     public BsonDocument toBsonDocument() {
