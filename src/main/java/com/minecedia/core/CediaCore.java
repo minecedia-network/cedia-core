@@ -11,8 +11,8 @@ public class CediaCore extends JavaPlugin {
     @Override
     public void onEnable() {
         HCore.initialize(this);
+        DatabaseProvider.initialize(this);
         Country.initialize();
-        DatabaseProvider.initialize();
         UserHandler.initialize();
     }
 
