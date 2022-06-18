@@ -1,36 +1,38 @@
 package com.minecedia.core.database;
 
+import com.hakan.core.utils.yaml.HYaml;
+import com.minecedia.core.CediaCore;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoDatabase;
 
 public class DatabaseProvider {
 
-    private static final String HOST = "127.0.0.1";
-    private static final String USERNAME = "";
-    private static final String PASSWORD = "";
-    private static final int PORT = 27017;
-
-
     public static MongoClient MONGO_CLIENT;
     public static MongoDatabase MONGO_DATABASE;
 
-    public static void initialize() {
-        MongoClientURI clientURI = new MongoClientURI(DatabaseProvider.calculateURI());
+    public static void initialize(CediaCore plugin) {
+        HYaml yaml = HYaml.create(plugin, "settings.yml", "settings.yml");
+        MongoClientURI clientURI = new MongoClientURI(DatabaseProvider.calculateURI(yaml));
         MONGO_CLIENT = new MongoClient(clientURI);
         MONGO_DATABASE = MONGO_CLIENT.getDatabase("minecedia");
     }
 
-    private static String calculateURI() {
+    private static String calculateURI(HYaml yaml) {
+        String host = yaml.getString("database.host");
+        String username = yaml.getString("database.username");
+        String password = yaml.getString("database.password");
+        int port = yaml.getInt("database.port");
+
         StringBuilder builder = new StringBuilder("mongodb://");
-        if (!USERNAME.isEmpty())
-            builder.append(USERNAME);
-        if (!PASSWORD.isEmpty())
-            builder.append(":").append(PASSWORD);
-        if (!USERNAME.isEmpty() || !PASSWORD.isEmpty())
+        if (!username.isEmpty())
+            builder.append(username);
+        if (!password.isEmpty())
+            builder.append(":").append(password);
+        if (!username.isEmpty() || !password.isEmpty())
             builder.append("@");
-        builder.append(HOST);
-        builder.append(":").append(PORT);
+        builder.append(host);
+        builder.append(":").append(port);
         return builder.toString();
     }
 }
