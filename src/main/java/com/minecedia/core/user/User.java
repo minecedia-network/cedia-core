@@ -5,7 +5,7 @@ import com.minecedia.core.database.DatabaseObject;
 import com.minecedia.core.user.bukkit.UserBukkit;
 import com.minecedia.core.user.database.UserDatabase;
 import com.minecedia.core.user.database.UserField;
-import com.minecedia.core.user.utils.UserUtils;
+import com.minecedia.core.user.skin.UserSkinData;
 import com.minecedia.core.utils.CediaUtils;
 import org.bson.BsonBinary;
 import org.bson.BsonDocument;
@@ -22,25 +22,19 @@ public class User implements DatabaseObject {
     private final String name;
     private final long firstPlayed;
     private long lastPlayed;
-    private final String texture;
-    private final String signature;
-    private final String shortTexture;
     private final Country country;
     private final UserBukkit bukkit;
+    private final UserSkinData skinData;
     private final UserDatabase database;
 
     public User(Player player) {
-        String[] textureAndSignature = UserUtils.loadTexture(this);
-
         this.uid = player.getUniqueId();
         this.name = player.getName();
         this.firstPlayed = player.getFirstPlayed();
         this.lastPlayed = player.getLastPlayed();
-        this.texture = textureAndSignature[0];
-        this.signature = textureAndSignature[1];
-        this.shortTexture = textureAndSignature[2];
         this.country = Country.getByCode(CediaUtils.getCountryCodeByPlayer(player));
         this.bukkit = new UserBukkit(this, player);
+        this.skinData = new UserSkinData(this);
         this.database = new UserDatabase(this);
     }
 
@@ -49,11 +43,9 @@ public class User implements DatabaseObject {
         this.name = document.getString(UserField.NAME.getField()).getValue();
         this.firstPlayed = document.getInt64(UserField.FIRST_PLAYED.getField()).getValue();
         this.lastPlayed = document.getInt64(UserField.LAST_PLAYED.getField()).getValue();
-        this.texture = document.getString(UserField.TEXTURE.getField()).getValue();
-        this.signature = document.getString(UserField.SIGNATURE.getField()).getValue();
-        this.shortTexture = document.getString(UserField.SHORT_TEXTURE.getField()).getValue();
         this.country = Country.getByCode(document.getString(UserField.COUNTRY.getField()).getValue());
         this.bukkit = new UserBukkit(this, document.getDocument(UserField.BUKKIT.getField()));
+        this.skinData = new UserSkinData(this, document.getDocument(UserField.SKIN_DATA.getField()));
         this.database = new UserDatabase(this);
     }
 
@@ -86,18 +78,6 @@ public class User implements DatabaseObject {
         this.lastPlayed = time;
     }
 
-    public String getTexture() {
-        return this.texture;
-    }
-
-    public String getSignature() {
-        return this.signature;
-    }
-
-    public String getShortTexture() {
-        return this.shortTexture;
-    }
-
     public Country getCountry() {
         return this.country;
     }
@@ -106,10 +86,18 @@ public class User implements DatabaseObject {
         return this.bukkit;
     }
 
+    public UserSkinData getSkinData() {
+        return this.skinData;
+    }
+
     public UserDatabase getDatabase() {
         return this.database;
     }
 
+
+    /*
+    DATABASE HANDLERS
+     */
     public BsonDocument toQueryDocument() {
         return new BsonDocument(UserField.UID.getField(), new BsonBinary(this.uid));
     }

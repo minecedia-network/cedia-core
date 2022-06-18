@@ -12,11 +12,11 @@ import java.util.regex.Pattern;
 
 public class UserUtils {
 
-    public static String[] loadTexture(User user) {
-        return UserUtils.loadTexture(user.getName());
+    public static String[] loadSkinData(User user) {
+        return UserUtils.loadSkinData(user.getName());
     }
 
-    public static String[] loadTexture(String playerName) {
+    public static String[] loadSkinData(String playerName) {
         try {
             URL url1 = new URL("https://api.mojang.com/users/profiles/minecraft/" + playerName);
             InputStreamReader reader_0 = new InputStreamReader(url1.openStream());

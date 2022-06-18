@@ -121,10 +121,14 @@ public class UserBukkit implements DatabaseObject {
         this.potion = player.getActivePotionEffects();
         this.inventory = new HashMap<>();
 
-        for (int i = 0; i < player.getInventory().getSize() + 4; i++)
+        for (int i = 0; i < player.getInventory().getSize() + 5; i++)
             this.inventory.put(i, player.getInventory().getItem(i));
     }
 
+
+    /*
+    DATABASE HANDLERS
+     */
     @Override
     public BsonDocument toBsonDocument() {
         BsonDocument document = new BsonDocument();

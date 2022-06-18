@@ -15,9 +15,7 @@ public enum UserField implements DatabaseField<User> {
     COUNTRY("country"),
     LAST_PLAYED("last_played"),
     FIRST_PLAYED("first_played"),
-    TEXTURE("texture"),
-    SIGNATURE("signature"),
-    SHORT_TEXTURE("short_texture"),
+    SKIN_DATA("skin_data"),
     BUKKIT("bukkit"),
     ;
 
@@ -46,12 +44,8 @@ public enum UserField implements DatabaseField<User> {
                 return new BsonInt64(user.getLastPlayed());
             case FIRST_PLAYED:
                 return new BsonInt64(user.getFirstPlayed());
-            case TEXTURE:
-                return new BsonString(user.getTexture());
-            case SIGNATURE:
-                return new BsonString(user.getSignature());
-            case SHORT_TEXTURE:
-                return new BsonString(user.getShortTexture());
+            case SKIN_DATA:
+                return user.getSkinData().toBsonDocument();
             case BUKKIT:
                 return user.getBukkit().toBsonDocument();
             default:
