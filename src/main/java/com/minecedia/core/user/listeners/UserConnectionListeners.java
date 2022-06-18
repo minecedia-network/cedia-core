@@ -12,7 +12,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-public class UserListeners implements Listener {
+public class UserConnectionListeners implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
@@ -40,7 +40,8 @@ public class UserListeners implements Listener {
             Player player = event.getPlayer();
 
             User user = UserHandler.unregister(player);
-            user.getBukkit().load(player);
+            user.setLastPlayed(System.currentTimeMillis());
+            user.getBukkit().loadFrom(player);
             user.getDatabase().update();
 
             HCore.syncScheduler().run(() -> Bukkit.getPluginManager().callEvent(new UserUnloadEvent(user, player)));

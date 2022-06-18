@@ -2,7 +2,7 @@ package com.minecedia.core.user;
 
 import com.hakan.core.HCore;
 import com.minecedia.core.user.database.UserDatabase;
-import com.minecedia.core.user.listeners.UserListeners;
+import com.minecedia.core.user.listeners.UserConnectionListeners;
 import org.bson.BsonBinary;
 import org.bson.BsonDocument;
 import org.bson.BsonString;
@@ -23,12 +23,12 @@ public class UserHandler {
 
     public static void initialize() {
         UserDatabase.initialize();
-        HCore.registerListeners(new UserListeners());
+        HCore.registerListeners(new UserConnectionListeners());
     }
 
     public static void uninitialize() {
         users.values().forEach(user -> {
-            user.getBukkit().load(Objects.requireNonNull(user.asPlayer()));
+            user.getBukkit().loadFrom(Objects.requireNonNull(user.asPlayer()));
             user.getDatabase().update();
         });
     }

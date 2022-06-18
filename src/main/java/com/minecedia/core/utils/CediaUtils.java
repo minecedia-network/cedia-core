@@ -22,8 +22,7 @@ public class CediaUtils {
         if (inetAddress == null) return "TR";
 
         String ip = inetAddress.getHostAddress();
-        if (ip == null) return "TR";
-        else if (ip.equals("127.0.0.1")) return "TR";
+        if (ip == null || ip.equals("127.0.0.1")) return "TR";
 
         return CediaUtils.getCountryCodeByIP(ip);
     }
