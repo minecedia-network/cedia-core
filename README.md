@@ -1,3 +1,3 @@
 # cedia-core
 
-Core plugin for all servers
+Core plugin for minecedia plugins
