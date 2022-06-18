@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -24,13 +23,13 @@ public class UserHandler {
     public static void initialize() {
         UserDatabase.initialize();
         HCore.registerListeners(new UserConnectionListeners());
+
+        HCore.asyncScheduler().after(6000).every(6000)
+                .run(() -> users.values().forEach(user -> user.getDatabase().update()));
     }
 
     public static void uninitialize() {
-        users.values().forEach(user -> {
-            user.getBukkit().loadFrom(Objects.requireNonNull(user.asPlayer()));
-            user.getDatabase().update();
-        });
+        users.values().forEach(user -> user.getDatabase().update());
     }
 
 

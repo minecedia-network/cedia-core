@@ -27,10 +27,7 @@ public class UserConnectionListeners implements Listener {
 
 
             User loaded = UserHandler.register(user);
-            HCore.syncScheduler().run(() -> {
-                loaded.getBukkit().update(player);
-                Bukkit.getPluginManager().callEvent(new UserLoadEvent(loaded, player));
-            });
+            HCore.syncScheduler().run(() -> Bukkit.getPluginManager().callEvent(new UserLoadEvent(loaded, player)));
         }));
     }
 
@@ -41,7 +38,6 @@ public class UserConnectionListeners implements Listener {
 
             User user = UserHandler.unregister(player);
             user.setLastPlayed(System.currentTimeMillis());
-            user.getBukkit().loadFrom(player);
             user.getDatabase().update();
 
             HCore.syncScheduler().run(() -> Bukkit.getPluginManager().callEvent(new UserUnloadEvent(user, player)));
