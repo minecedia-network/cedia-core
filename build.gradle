@@ -5,7 +5,7 @@ plugins {
 }
 
 group 'com.minecedia'
-version '0.0.2'
+version '0.0.3'
 sourceCompatibility = 1.8
 compileJava.options.encoding = 'UTF-8'
 
@@ -23,9 +23,9 @@ dependencies {
 publishing {
     publications {
         maven(MavenPublication) {
-            groupId = 'com.minecedia'
+            groupId = project.group
             artifactId = 'core'
-            version = "0.0.2"
+            version = project.version
             from components.java
         }
     }
@@ -34,7 +34,7 @@ publishing {
 artifacts.archives(tasks.shadowJar)
 
 tasks.jar {
-    enabled = false
+    enabled = true
 }
 
 tasks.shadowJar {
