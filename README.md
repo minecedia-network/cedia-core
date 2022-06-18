@@ -5,7 +5,6 @@ Core plugin for minecedia plugins. It includes hCore and User system.
 ### Maven
 
 ```xml
-
 <repository>
     <id>jitpack.io</id>
     <url>https://jitpack.io</url>
@@ -13,7 +12,6 @@ Core plugin for minecedia plugins. It includes hCore and User system.
 ```
 
 ```xml
-
 <dependency>
     <groupId>com.github.minecedia-network</groupId>
     <artifactId>cedia-core</artifactId>
