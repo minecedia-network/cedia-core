@@ -17,7 +17,6 @@ repositories {
 dependencies {
     compileOnly 'org.spigotmc:spigot:1.16.4-R0.1-SNAPSHOT'
     implementation 'com.github.hakan-krgn.hCore:bukkit:0.4.7'
-    implementation 'com.neovisionaries:nv-i18n:1.29'
 }
 
 artifacts.archives(tasks.shadowJar)
