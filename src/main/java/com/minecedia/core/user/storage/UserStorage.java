@@ -44,20 +44,28 @@ public class UserStorage implements DatabaseObject {
         return this.valueMap.values();
     }
 
+    public boolean hasValue(String key) {
+        return this.valueMap.containsKey(key);
+    }
+
     public <T extends BsonValue> T getValue(String key) {
-        return (T) this.valueMap.get(key);
+        BsonValue value = this.valueMap.get(key);
+        return (value != null) ? (T) value : null;
     }
 
     public <T extends BsonValue> T getValue(String key, BsonValue defaultValue) {
-        return (T) this.valueMap.getOrDefault(key, defaultValue);
+        BsonValue value = this.valueMap.getOrDefault(key, defaultValue);
+        return (value != null) ? (T) value : null;
     }
 
     public <T extends BsonValue> T getValue(String key, Class<T> type) {
-        return type.cast(this.valueMap.get(key));
+        BsonValue value = this.valueMap.get(key);
+        return (value != null) ? type.cast(value) : null;
     }
 
     public <T extends BsonValue> T getValue(String key, BsonValue defaultValue, Class<T> type) {
-        return type.cast(this.valueMap.getOrDefault(key, defaultValue));
+        BsonValue value = this.valueMap.getOrDefault(key, defaultValue);
+        return (value != null) ? type.cast(value) : null;
     }
 
     public void setValue(String key, BsonValue value) {
