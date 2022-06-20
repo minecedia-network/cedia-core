@@ -15,11 +15,11 @@ import java.util.regex.Pattern;
 
 public class UserSkinData implements DatabaseObject {
 
-    private static String[] loadSkinData(User user) {
+    public static String[] loadSkinData(User user) {
         return UserSkinData.loadSkinData(user.getName());
     }
 
-    private static String[] loadSkinData(String playerName) {
+    public static String[] loadSkinData(String playerName) {
         try {
             URL url1 = new URL("https://api.mojang.com/users/profiles/minecraft/" + playerName);
             InputStreamReader reader_0 = new InputStreamReader(url1.openStream());
@@ -44,9 +44,9 @@ public class UserSkinData implements DatabaseObject {
 
 
     private final User user;
-    private final String texture;
-    private final String signature;
-    private final String shortTexture;
+    private String texture;
+    private String signature;
+    private String shortTexture;
 
     public UserSkinData(User user) {
         String[] textureAndSignature = UserSkinData.loadSkinData(user);
@@ -72,12 +72,24 @@ public class UserSkinData implements DatabaseObject {
         return this.texture;
     }
 
+    public void setTexture(String texture) {
+        this.texture = texture;
+    }
+
     public String getSignature() {
         return this.signature;
     }
 
+    public void setSignature(String signature) {
+        this.signature = signature;
+    }
+
     public String getShortTexture() {
         return this.shortTexture;
+    }
+
+    public void setShortTexture(String shortTexture) {
+        this.shortTexture = shortTexture;
     }
 
 

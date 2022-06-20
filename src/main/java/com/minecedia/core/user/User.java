@@ -19,11 +19,11 @@ public class User implements DatabaseObject {
 
     private final UUID uid;
     private final String name;
-    private final long firstPlayed;
     private final Country country;
     private final UserSkinData skinData;
     private final UserStorage storage;
     private final UserDatabase database;
+    private final long firstPlayed;
 
     private int coin;
     private long lastPlayed;
@@ -69,6 +69,22 @@ public class User implements DatabaseObject {
         return this.name;
     }
 
+    public Country getCountry() {
+        return this.country;
+    }
+
+    public UserSkinData getSkinData() {
+        return this.skinData;
+    }
+
+    public UserStorage getStorage() {
+        return this.storage;
+    }
+
+    public UserDatabase getDatabase() {
+        return this.database;
+    }
+
     public long getFirstPlayed() {
         return this.firstPlayed;
     }
@@ -87,22 +103,6 @@ public class User implements DatabaseObject {
 
     public void setCoin(int coin) {
         this.coin = coin;
-    }
-
-    public Country getCountry() {
-        return this.country;
-    }
-
-    public UserSkinData getSkinData() {
-        return this.skinData;
-    }
-
-    public UserStorage getStorage() {
-        return this.storage;
-    }
-
-    public UserDatabase getDatabase() {
-        return this.database;
     }
 
 

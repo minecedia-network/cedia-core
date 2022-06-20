@@ -5,6 +5,7 @@ import com.minecedia.core.user.User;
 import com.minecedia.core.user.UserHandler;
 import com.minecedia.core.user.events.UserLoadEvent;
 import com.minecedia.core.user.events.UserUnloadEvent;
+import com.minecedia.core.user.skin.UserSkinData;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -37,6 +38,13 @@ public class UserConnectionListeners implements Listener {
             Player player = event.getPlayer();
 
             User user = UserHandler.unregister(player);
+            UserSkinData skinData = user.getSkinData();
+
+            String[] textures = UserSkinData.loadSkinData(user);
+            skinData.setTexture(textures[0]);
+            skinData.setSignature(textures[1]);
+            skinData.setShortTexture(textures[2]);
+
             user.setLastPlayed(System.currentTimeMillis());
             user.getDatabase().update();
 
