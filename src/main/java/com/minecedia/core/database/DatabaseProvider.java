@@ -9,13 +9,17 @@ import com.mongodb.client.MongoDatabase;
 public class DatabaseProvider {
 
     public static MongoClient MONGO_CLIENT;
-    public static MongoDatabase MONGO_DATABASE;
+    public static MongoDatabase DEFAULT_DATABASE;
 
     public static void initialize(CediaCore plugin) {
         HYaml yaml = HYaml.create(plugin, "settings.yml", "settings.yml");
         MongoClientURI clientURI = new MongoClientURI(DatabaseProvider.calculateURI(yaml));
         MONGO_CLIENT = new MongoClient(clientURI);
-        MONGO_DATABASE = MONGO_CLIENT.getDatabase("minecedia");
+        DEFAULT_DATABASE = DatabaseProvider.connect("minecedia");
+    }
+
+    public static MongoDatabase connect(String databaseName) {
+        return MONGO_CLIENT.getDatabase(databaseName);
     }
 
     private static String calculateURI(HYaml yaml) {

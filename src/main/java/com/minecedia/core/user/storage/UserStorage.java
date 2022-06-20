@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+@SuppressWarnings({"unchecked"})
 public class UserStorage implements DatabaseObject {
 
     private final User user;
@@ -43,8 +44,20 @@ public class UserStorage implements DatabaseObject {
         return this.valueMap.values();
     }
 
-    public BsonValue getValue(String key) {
-        return this.valueMap.get(key);
+    public <T extends BsonValue> T getValue(String key) {
+        return (T) this.valueMap.get(key);
+    }
+
+    public <T extends BsonValue> T getValue(String key, BsonValue defaultValue) {
+        return (T) this.valueMap.getOrDefault(key, defaultValue);
+    }
+
+    public <T extends BsonValue> T getValue(String key, Class<T> type) {
+        return type.cast(this.valueMap.get(key));
+    }
+
+    public <T extends BsonValue> T getValue(String key, BsonValue defaultValue, Class<T> type) {
+        return type.cast(this.valueMap.getOrDefault(key, defaultValue));
     }
 
     public void setValue(String key, BsonValue value) {

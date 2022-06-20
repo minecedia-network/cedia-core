@@ -11,7 +11,7 @@ public class UserDatabase {
     public static MongoCollection<BsonDocument> COLLECTION;
 
     public static void initialize() {
-        COLLECTION = DatabaseProvider.MONGO_DATABASE.getCollection("users", BsonDocument.class);
+        COLLECTION = DatabaseProvider.DEFAULT_DATABASE.getCollection("users", BsonDocument.class);
         COLLECTION.createIndex(Indexes.ascending("uid"));
     }
 
