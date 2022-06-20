@@ -15,7 +15,7 @@ Core plugin for minecedia plugins. It includes hCore and User system.
 <dependency>
     <groupId>com.github.minecedia-network</groupId>
     <artifactId>cedia-core</artifactId>
-    <version>0.0.3</version>
+    <version>0.0.4</version>
     <scope>provided</scope>
 </dependency>
 ```
@@ -30,6 +30,6 @@ repositories {
 
 ```gradle
 dependencies {
-    implementation 'com.github.minecedia-network:cedia-core:0.0.3'
+    implementation 'com.github.minecedia-network:cedia-core:0.0.4'
 }
 ```
