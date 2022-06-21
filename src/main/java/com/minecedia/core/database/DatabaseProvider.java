@@ -15,7 +15,7 @@ public class DatabaseProvider {
         HYaml yaml = HYaml.create(plugin, "settings.yml", "settings.yml");
         MongoClientURI clientURI = new MongoClientURI(DatabaseProvider.calculateURI(yaml));
         MONGO_CLIENT = new MongoClient(clientURI);
-        DEFAULT_DATABASE = DatabaseProvider.connect("minecedia");
+        DEFAULT_DATABASE = DatabaseProvider.connect(yaml.getString("database.name"));
     }
 
     public static MongoDatabase connect(String databaseName) {

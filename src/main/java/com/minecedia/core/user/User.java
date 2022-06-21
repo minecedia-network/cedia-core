@@ -24,8 +24,6 @@ public class User implements DatabaseObject {
     private final UserStorage storage;
     private final UserDatabase database;
     private final long firstPlayed;
-
-    private int coin;
     private long lastPlayed;
 
     public User(Player player) {
@@ -33,7 +31,6 @@ public class User implements DatabaseObject {
         this.name = player.getName();
         this.firstPlayed = player.getFirstPlayed();
         this.lastPlayed = player.getLastPlayed();
-        this.coin = 0;
         this.country = Country.getByCode(CediaUtils.getCountryCodeByPlayer(player));
         this.skinData = new UserSkinData(this);
         this.storage = new UserStorage(this);
@@ -45,7 +42,6 @@ public class User implements DatabaseObject {
         this.name = document.getString(UserField.NAME.getField()).getValue();
         this.firstPlayed = document.getInt64(UserField.FIRST_PLAYED.getField()).getValue();
         this.lastPlayed = document.getInt64(UserField.LAST_PLAYED.getField()).getValue();
-        this.coin = document.getInt32(UserField.COIN.getField()).getValue();
         this.country = Country.getByCode(document.getString(UserField.COUNTRY.getField()).getValue());
         this.skinData = new UserSkinData(this, document.getDocument(UserField.SKIN_DATA.getField()));
         this.storage = new UserStorage(this, document.getDocument(UserField.STORAGE.getField()));
@@ -95,14 +91,6 @@ public class User implements DatabaseObject {
 
     public void setLastPlayed(long time) {
         this.lastPlayed = time;
-    }
-
-    public int getCoin() {
-        return this.coin;
-    }
-
-    public void setCoin(int coin) {
-        this.coin = coin;
     }
 
 
