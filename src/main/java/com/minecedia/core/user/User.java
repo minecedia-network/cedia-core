@@ -6,7 +6,7 @@ import com.minecedia.core.user.database.UserDatabase;
 import com.minecedia.core.user.database.UserField;
 import com.minecedia.core.user.skin.UserSkinData;
 import com.minecedia.core.user.storage.UserStorage;
-import com.minecedia.core.utils.CediaUtils;
+import com.minecedia.core.utils.CountryUtil;
 import org.bson.BsonDocument;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -31,7 +31,7 @@ public class User implements DatabaseObject {
         this.name = player.getName();
         this.firstPlayed = player.getFirstPlayed();
         this.lastPlayed = player.getLastPlayed();
-        this.country = Country.getByCode(CediaUtils.getCountryCodeByPlayer(player));
+        this.country = Country.getByCode(CountryUtil.findCountryCode(player));
         this.skinData = new UserSkinData(this);
         this.storage = new UserStorage(this);
         this.database = new UserDatabase(this);
