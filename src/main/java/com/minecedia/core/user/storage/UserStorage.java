@@ -10,6 +10,7 @@ import org.bson.BsonInt32;
 import org.bson.BsonInt64;
 import org.bson.BsonString;
 import org.bson.BsonValue;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -109,7 +110,7 @@ public class UserStorage implements DatabaseObject {
     DATABASE HANDLERS
      */
     @Override
-    public BsonDocument toBsonDocument() {
+    public @NotNull BsonDocument toBsonDocument() {
         BsonDocument document = new BsonDocument();
         document.putAll(this.valueMap);
         return document;

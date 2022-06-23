@@ -7,6 +7,7 @@ import org.bson.BsonDocument;
 import org.bson.BsonInt64;
 import org.bson.BsonString;
 import org.bson.BsonValue;
+import org.jetbrains.annotations.NotNull;
 
 public enum UserField implements DatabaseField<User> {
 
@@ -20,36 +21,37 @@ public enum UserField implements DatabaseField<User> {
     ;
 
 
-    private final String field;
+    private final @NotNull String field;
 
-    UserField(String field) {
+    UserField(@NotNull String field) {
         this.field = field;
     }
 
     @Override
-    public String getField() {
+    public @NotNull String field() {
         return this.field;
     }
 
     @Override
-    public BsonValue getValue(User user) {
+    public @NotNull BsonValue value(User user) {
         switch (this) {
             case UID:
-                return new BsonBinary(user.getUID());
+                return new BsonBinary(user.uid());
             case NAME:
-                return new BsonString(user.getName());
+                return new BsonString(user.name());
             case COUNTRY:
-                return new BsonString(user.getCountry().getCode());
+                return new BsonString(user.country().code());
             case LAST_PLAYED:
-                return new BsonInt64(user.getLastPlayed());
+                return new BsonInt64(user.lastPlayed());
             case FIRST_PLAYED:
-                return new BsonInt64(user.getFirstPlayed());
+                return new BsonInt64(user.firstPlayed());
             case SKIN_DATA:
-                return user.getSkinData().toBsonDocument();
+                return user.skin().toBsonDocument();
             case STORAGE:
-                return user.getStorage().toBsonDocument();
+                return user.storage().toBsonDocument();
             default:
                 return new BsonDocument();
         }
     }
+
 }

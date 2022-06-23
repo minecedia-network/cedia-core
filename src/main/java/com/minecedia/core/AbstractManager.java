@@ -37,5 +37,6 @@ public abstract class AbstractManager<ID, OBJECT> {
     }
 
     public abstract void initialize();
+    public abstract void uninitialize();
 
 }

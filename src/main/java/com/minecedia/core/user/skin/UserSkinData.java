@@ -6,6 +6,7 @@ import com.minecedia.core.database.DatabaseObject;
 import com.minecedia.core.user.User;
 import org.bson.BsonDocument;
 import org.bson.BsonString;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -16,7 +17,7 @@ import java.util.regex.Pattern;
 public class UserSkinData implements DatabaseObject {
 
     public static String[] loadSkinData(User user) {
-        return UserSkinData.loadSkinData(user.getName());
+        return UserSkinData.loadSkinData(user.name());
     }
 
     public static String[] loadSkinData(String playerName) {
@@ -97,7 +98,7 @@ public class UserSkinData implements DatabaseObject {
     DATABASE HANDLERS
      */
     @Override
-    public BsonDocument toBsonDocument() {
+    public @NotNull BsonDocument toBsonDocument() {
         BsonDocument document = new BsonDocument();
         document.put("texture", new BsonString(this.texture));
         document.put("signature", new BsonString(this.signature));

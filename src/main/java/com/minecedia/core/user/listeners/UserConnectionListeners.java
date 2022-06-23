@@ -2,7 +2,7 @@ package com.minecedia.core.user.listeners;
 
 import com.hakan.core.HCore;
 import com.minecedia.core.user.User;
-import com.minecedia.core.user.UserHandler;
+import com.minecedia.core.user.UserManager;
 import com.minecedia.core.user.events.UserLoadEvent;
 import com.minecedia.core.user.events.UserUnloadEvent;
 import com.minecedia.core.user.skin.UserSkinData;
@@ -20,14 +20,14 @@ public class UserConnectionListeners implements Listener {
         HCore.asyncScheduler().run((() -> {
             Player player = event.getPlayer();
 
-            User user = UserHandler.loadByUID(player.getUniqueId());
+            User user = UserManager.loadByUID(player.getUniqueId());
             if (user == null) {
                 user = new User(player);
-                user.getDatabase().insert();
+                user.database().insert();
             }
 
 
-            User loaded = UserHandler.register(user);
+            User loaded = UserManager.register(user);
             HCore.syncScheduler().run(() -> Bukkit.getPluginManager().callEvent(new UserLoadEvent(loaded, player)));
         }));
     }
@@ -37,8 +37,8 @@ public class UserConnectionListeners implements Listener {
         HCore.asyncScheduler().run((() -> {
             Player player = event.getPlayer();
 
-            User user = UserHandler.unregister(player);
-            UserSkinData skinData = user.getSkinData();
+            User user = UserManager.unregister(player);
+            UserSkinData skinData = user.skin();
 
             String[] textures = UserSkinData.loadSkinData(user);
             skinData.setTexture(textures[0]);
@@ -46,7 +46,7 @@ public class UserConnectionListeners implements Listener {
             skinData.setShortTexture(textures[2]);
 
             user.setLastPlayed(System.currentTimeMillis());
-            user.getDatabase().update();
+            user.database().update();
 
             HCore.syncScheduler().run(() -> Bukkit.getPluginManager().callEvent(new UserUnloadEvent(user, player)));
         }));
