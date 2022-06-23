@@ -1,6 +1,6 @@
 package com.minecedia.core.user;
 
-import com.minecedia.core.country.Country;
+import com.minecedia.core.country.CountryManager;
 import com.minecedia.core.database.DatabaseObject;
 import com.minecedia.core.user.database.UserDatabase;
 import com.minecedia.core.user.database.UserField;
@@ -19,7 +19,7 @@ public class User implements DatabaseObject {
 
     private final UUID uid;
     private final String name;
-    private final Country country;
+    private final CountryManager countryManager;
     private final UserSkinData skinData;
     private final UserStorage storage;
     private final UserDatabase database;
@@ -31,7 +31,7 @@ public class User implements DatabaseObject {
         this.name = player.getName();
         this.firstPlayed = player.getFirstPlayed();
         this.lastPlayed = player.getLastPlayed();
-        this.country = Country.getByCode(CountryUtil.findCountryCode(player));
+        this.countryManager = CountryManager.findByCode(CountryUtil.findCountryCode(player));
         this.skinData = new UserSkinData(this);
         this.storage = new UserStorage(this);
         this.database = new UserDatabase(this);
@@ -42,7 +42,7 @@ public class User implements DatabaseObject {
         this.name = document.getString(UserField.NAME.getField()).getValue();
         this.firstPlayed = document.getInt64(UserField.FIRST_PLAYED.getField()).getValue();
         this.lastPlayed = document.getInt64(UserField.LAST_PLAYED.getField()).getValue();
-        this.country = Country.getByCode(document.getString(UserField.COUNTRY.getField()).getValue());
+        this.countryManager = CountryManager.findByCode(document.getString(UserField.COUNTRY.getField()).getValue());
         this.skinData = new UserSkinData(this, document.getDocument(UserField.SKIN_DATA.getField()));
         this.storage = new UserStorage(this, document.getDocument(UserField.STORAGE.getField()));
         this.database = new UserDatabase(this);
@@ -65,8 +65,8 @@ public class User implements DatabaseObject {
         return this.name;
     }
 
-    public Country getCountry() {
-        return this.country;
+    public CountryManager getCountry() {
+        return this.countryManager;
     }
 
     public UserSkinData getSkinData() {
