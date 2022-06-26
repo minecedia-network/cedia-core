@@ -2,11 +2,7 @@ package com.minecedia.core.user.database;
 
 import com.minecedia.core.database.DatabaseField;
 import com.minecedia.core.user.User;
-import org.bson.BsonBinary;
-import org.bson.BsonDocument;
-import org.bson.BsonInt64;
-import org.bson.BsonString;
-import org.bson.BsonValue;
+import org.bson.*;
 import org.jetbrains.annotations.NotNull;
 
 public enum UserField implements DatabaseField<User> {

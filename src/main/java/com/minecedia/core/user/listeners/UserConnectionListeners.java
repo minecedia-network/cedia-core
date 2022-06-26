@@ -3,7 +3,6 @@ package com.minecedia.core.user.listeners;
 import com.hakan.core.HCore;
 import com.minecedia.core.CediaCore;
 import com.minecedia.core.user.User;
-import com.minecedia.core.user.UserManager;
 import com.minecedia.core.user.events.UserLoadEvent;
 import com.minecedia.core.user.events.UserUnloadEvent;
 import com.minecedia.core.user.skin.UserSkinData;

@@ -4,7 +4,8 @@ import com.minecedia.core.AbstractManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Locale;
 
 public class CountryManager extends AbstractManager<String, Country> {
 

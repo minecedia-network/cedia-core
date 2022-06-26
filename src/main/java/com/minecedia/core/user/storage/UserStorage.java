@@ -2,14 +2,7 @@ package com.minecedia.core.user.storage;
 
 import com.minecedia.core.database.DatabaseObject;
 import com.minecedia.core.user.User;
-import org.bson.BsonBinary;
-import org.bson.BsonBoolean;
-import org.bson.BsonDocument;
-import org.bson.BsonDouble;
-import org.bson.BsonInt32;
-import org.bson.BsonInt64;
-import org.bson.BsonString;
-import org.bson.BsonValue;
+import org.bson.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
