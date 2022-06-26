@@ -105,4 +105,5 @@ public class UserSkinData implements DatabaseObject {
         document.put("short_texture", new BsonString(this.shortTexture));
         return document;
     }
+
 }

@@ -20,5 +20,10 @@ public class CountryManager extends AbstractManager<String, Country> {
 
     }
 
+    @Override
+    public void uninitialize() {
+
+    }
+
 
 }

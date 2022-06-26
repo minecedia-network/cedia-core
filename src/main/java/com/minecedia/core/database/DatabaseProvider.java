@@ -1,7 +1,6 @@
 package com.minecedia.core.database;
 
 import com.hakan.core.utils.yaml.HYaml;
-import com.minecedia.core.CediaCore;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoDatabase;
@@ -51,4 +50,13 @@ public class DatabaseProvider {
 
         return builder.toString();
     }
+
+    public @NotNull MongoDatabase database() {
+        return this.database;
+    }
+
+    public void setDatabase(@NotNull MongoDatabase database) {
+        this.database = database;
+    }
+
 }

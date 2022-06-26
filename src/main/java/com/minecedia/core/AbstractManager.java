@@ -24,12 +24,13 @@ public abstract class AbstractManager<ID, OBJECT> {
         return this.map.getOrDefault(id, null);
     }
 
-    public void add(ID id, OBJECT object) {
+    public OBJECT add(ID id, OBJECT object) {
         this.map.put(id, object);
+        return object;
     }
 
-    public void remove(ID id) {
-        this.map.remove(id);
+    public OBJECT remove(ID id) {
+        return this.map.remove(id);
     }
 
     public @NotNull JavaPlugin plugin() {

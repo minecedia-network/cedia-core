@@ -1,6 +1,7 @@
 package com.minecedia.core.user.listeners;
 
 import com.hakan.core.HCore;
+import com.minecedia.core.CediaCore;
 import com.minecedia.core.user.User;
 import com.minecedia.core.user.UserManager;
 import com.minecedia.core.user.events.UserLoadEvent;
@@ -12,22 +13,29 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.jetbrains.annotations.NotNull;
 
 public class UserConnectionListeners implements Listener {
+
+    private final @NotNull CediaCore core;
+
+    public UserConnectionListeners(@NotNull CediaCore core) {
+        this.core = core;
+    }
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         HCore.asyncScheduler().run((() -> {
-            Player player = event.getPlayer();
 
-            User user = UserManager.loadByUID(player.getUniqueId());
+            Player player = event.getPlayer();
+            User user = core.userManager().load(player.getUniqueId());
+
             if (user == null) {
-                user = new User(player);
+                user = new User(core, player);
                 user.database().insert();
             }
 
-
-            User loaded = UserManager.register(user);
+            User loaded = core.userManager().add(user.uid(), user);
             HCore.syncScheduler().run(() -> Bukkit.getPluginManager().callEvent(new UserLoadEvent(loaded, player)));
         }));
     }
@@ -37,7 +45,7 @@ public class UserConnectionListeners implements Listener {
         HCore.asyncScheduler().run((() -> {
             Player player = event.getPlayer();
 
-            User user = UserManager.unregister(player);
+            User user = core.userManager().remove(player.getUniqueId());
             UserSkinData skinData = user.skin();
 
             String[] textures = UserSkinData.loadSkinData(user);
@@ -51,4 +59,5 @@ public class UserConnectionListeners implements Listener {
             HCore.syncScheduler().run(() -> Bukkit.getPluginManager().callEvent(new UserUnloadEvent(user, player)));
         }));
     }
+
 }

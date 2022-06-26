@@ -1,25 +1,22 @@
 package com.minecedia.core.user.database;
 
-import com.minecedia.core.database.DatabaseProvider;
+import com.minecedia.core.CediaCore;
 import com.minecedia.core.user.User;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Indexes;
 import org.bson.BsonDocument;
+import org.jetbrains.annotations.NotNull;
 
 public class UserDatabase {
 
-    public static MongoCollection<BsonDocument> COLLECTION;
+    private static MongoCollection<BsonDocument> COLLECTION;
 
-    public static void initialize() {
-        COLLECTION = DatabaseProvider.database.getCollection("users", BsonDocument.class);
-        COLLECTION.createIndex(Indexes.ascending("uid"));
-    }
-
-
+    private final @NotNull CediaCore core;
     private final User user;
 
-    public UserDatabase(User user) {
+    public UserDatabase(@NotNull CediaCore core, @NotNull User user) {
         this.user = user;
+        this.core = core;
     }
 
     public User getUser() {
@@ -38,4 +35,14 @@ public class UserDatabase {
     public void delete() {
         COLLECTION.deleteOne(this.user.toQueryDocument());
     }
+
+    public static void initialize(CediaCore core) {
+        COLLECTION = core.databaseProvider().database().getCollection("users", BsonDocument.class);
+        COLLECTION.createIndex(Indexes.ascending("uid"));
+    }
+
+    public static MongoCollection<BsonDocument> collection() {
+        return COLLECTION;
+    }
+
 }
